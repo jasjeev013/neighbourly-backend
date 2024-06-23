@@ -1,7 +1,7 @@
-// routes/projects.js
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/project');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all projects
 router.get('/', async (req, res) => {
@@ -13,10 +13,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Create a new project
-router.post('/', async (req, res) => {
+// Create a new project (protected for organization role)
+router.post('/', auth, authorize('organization'), async (req, res) => {
   const project = new Project({
-    organization_id: req.body.organization_id,
+    organization_id: req.user.id,
     title: req.body.title,
     description: req.body.description,
     start_date: req.body.start_date,

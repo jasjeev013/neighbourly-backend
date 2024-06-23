@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Review = require('../models/review');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all reviews
 router.get('/', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new review
-router.post('/', async (req, res) => {
+router.post('/', auth, authorize('volunteer'), async (req, res) => {
   const review = new Review({
     volunteer_id: req.body.volunteer_id,
     project_id: req.body.project_id,

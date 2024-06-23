@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -27,6 +26,7 @@ const reviewsRouter = require('./routes/reviews');
 const categoriesRouter = require('./routes/categories');
 const locationsRouter = require('./routes/locations');
 const volunteeringRouter = require('./routes/volunteering');
+const authRouter = require('./routes/auth'); // Auth routes
 
 app.use('/users', usersRouter);
 app.use('/organizations', organizationsRouter);
@@ -37,6 +37,7 @@ app.use('/reviews', reviewsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/locations', locationsRouter);
 app.use('/volunteering', volunteeringRouter);
+app.use('/auth', authRouter); // Use auth routes
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

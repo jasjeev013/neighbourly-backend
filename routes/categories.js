@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Category = require('../models/category');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all categories
 router.get('/', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new category
-router.post('/', async (req, res) => {
+router.post('/',auth, authorize('organization'), async (req, res) => {
   const category = new Category({
     name: req.body.name
   });

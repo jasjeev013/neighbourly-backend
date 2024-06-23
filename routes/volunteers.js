@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Volunteer = require('../models/volunteer');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all volunteers
 router.get('/', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new volunteer
-router.post('/', async (req, res) => {
+router.post('/',auth, authorize('organization'), async (req, res) => {
   const volunteer = new Volunteer({
     user_id: req.body.user_id,
     bio: req.body.bio,

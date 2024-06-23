@@ -2,9 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const Volunteering = require('../models/volunteering');
-
+const { auth, authorize } = require('../middleware/auth');
 // Get all volunteering applications
-router.get('/', async (req, res) => {
+router.get('/',auth, authorize('organization'), async (req, res) => {
   try {
     const volunteeringApplications = await Volunteering.find();
     res.json(volunteeringApplications);
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new volunteering application
-router.post('/', async (req, res) => {
+router.post('/',auth, authorize('organization'), async (req, res) => {
   const volunteering = new Volunteering({
     project_id: req.body.project_id,
     volunteer_id: req.body.volunteer_id,

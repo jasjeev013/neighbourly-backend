@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/event');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all events
 router.get('/', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new event
-router.post('/', async (req, res) => {
+router.post('/', auth, authorize('organization'), async (req, res) => {
   const event = new Event({
     project_id: req.body.project_id,
     title: req.body.title,

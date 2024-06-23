@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Location = require('../models/location');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all locations
 router.get('/', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new location
-router.post('/', async (req, res) => {
+router.post('/', auth, authorize('organization'), async (req, res) => {
   const location = new Location({
     address: req.body.address,
     city: req.body.city,

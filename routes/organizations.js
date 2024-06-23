@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Organization = require('../models/organization');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all organizations
 router.get('/', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new organization
-router.post('/', async (req, res) => {
+router.post('/', auth, authorize('organization'),async (req, res) => {
   const organization = new Organization({
     user_id: req.body.user_id,
     name: req.body.name,
