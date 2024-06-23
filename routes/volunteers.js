@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new volunteer
-router.post('/',auth, authorize('organization'), async (req, res) => {
+router.post('/',auth, authorize('volunteer'), async (req, res) => {
   const volunteer = new Volunteer({
     user_id: req.body.user_id,
     bio: req.body.bio,
