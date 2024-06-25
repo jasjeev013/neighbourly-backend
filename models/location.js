@@ -6,8 +6,6 @@ const locationSchema = new mongoose.Schema({
   city: { type: String, required: true },
   state: { type: String, required: true },
   zip_code: { type: String, required: true },
-  latitude: { type: Number, required: true },
-  longitude: { type: Number, required: true }
 });
 
 module.exports = mongoose.model('Location', locationSchema);

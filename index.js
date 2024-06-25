@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Import the cors package
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
+app.use(cors()); // Use cors middleware to allow all origins
 app.use(bodyParser.json());
 
 // Connect to MongoDB
@@ -26,7 +28,8 @@ const reviewsRouter = require('./routes/reviews');
 const categoriesRouter = require('./routes/categories');
 const locationsRouter = require('./routes/locations');
 const volunteeringRouter = require('./routes/volunteering');
-const authRouter = require('./routes/auth'); // Auth routes
+const authRouter = require('./routes/auth');
+const profileRouter = require('./routes/profile'); // Profile routes
 
 app.use('/users', usersRouter);
 app.use('/organizations', organizationsRouter);
@@ -37,7 +40,8 @@ app.use('/reviews', reviewsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/locations', locationsRouter);
 app.use('/volunteering', volunteeringRouter);
-app.use('/auth', authRouter); // Use auth routes
+app.use('/auth', authRouter);
+app.use('/profile', profileRouter); // Use profile routes
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

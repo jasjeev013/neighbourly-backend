@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ['volunteer', 'organization']
+  },
+  profilePhoto: {
+    type: String // URL of the profile photo
   }
 });
 

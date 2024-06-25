@@ -4,15 +4,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/user');
+const upload = require('../config/multer'); // Multer middleware
 
 // JWT secret
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';
 
 // Register a new user (volunteer or organization)
-router.post('/register', [
-  check('username', 'Username is required').not().isEmpty(),
+router.post('/register', upload.single('profilePhoto'), [
+  check('username', 'Username is required').isLength({min: 3}),
   check('email', 'Please include a valid email').isEmail(),
-  check('password', 'Password must be 6 or more characters').isLength({ min: 6 }),
+  check('password', 'Password must be 6 or more characters').isLength({ min: 4 }),
   check('role', 'Role is required and should be either volunteer or organization').isIn(['volunteer', 'organization'])
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -21,6 +22,7 @@ router.post('/register', [
   }
 
   const { username, email, password, role } = req.body;
+  const profilePhoto = req.file ? req.file.path : null;
 
   try {
     // Check if the user already exists
@@ -34,7 +36,8 @@ router.post('/register', [
       username,
       email,
       password,
-      role
+      role,
+      profilePhoto
     });
 
     // Hash the password before saving
