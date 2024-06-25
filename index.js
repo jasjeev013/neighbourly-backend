@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const cors = require('cors'); // Import the cors package
 
+
 dotenv.config();
 
 const app = express();
@@ -42,6 +43,11 @@ app.use('/locations', locationsRouter);
 app.use('/volunteering', volunteeringRouter);
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter); // Use profile routes
+
+app.get('/', (req, res) => {
+  res.json({"message":"The APi is working"});
+});
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
