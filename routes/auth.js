@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const upload = require('../config/multer');
 const { check, validationResult } = require('express-validator');
+const multer = require('multer');
 const User = require('../models/user');
-const upload = require('../config/multer'); // Multer middleware
+
 
 // JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';

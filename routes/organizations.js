@@ -72,6 +72,7 @@ router.put('/:id', auth, authorize('organization'),[
   check('address', 'Description is required').not().isEmpty(),
   check('website', 'Description is required').not().isEmpty(),
 ], async (req, res) => {
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

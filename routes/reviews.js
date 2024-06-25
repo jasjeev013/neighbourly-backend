@@ -23,6 +23,12 @@ router.post('/', auth, authorize('volunteer'),[
   check('comment', 'Comment is required').not().isEmpty(),
 
 ] ,async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const review = new Review({
     volunteer_id: req.body.volunteer_id,
     project_id: req.body.project_id,
@@ -87,7 +93,7 @@ router.put('/:id', auth, authorize('volunteer'),[
 });
 
 // Delete review by ID
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, authorize('volunteer'), async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
 

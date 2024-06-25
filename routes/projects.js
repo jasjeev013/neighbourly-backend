@@ -24,6 +24,12 @@ router.post('/', auth, authorize('organization'),[
   check('category_id', 'Category Id must be 6 or more characters').not().isEmpty(),
   check('volunteers_needed', 'Volunteers should not be empty').not().isEmpty(),
 ] ,async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const project = new Project({
     organization_id: req.user.id,
     title: req.body.title,
@@ -95,7 +101,7 @@ router.put('/:id', auth, authorize('organization'),[
 });
 
 // Delete project by ID
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id',  auth, authorize('organization'), async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
 

@@ -19,7 +19,8 @@ router.get('/', async (req, res) => {
 router.post('/', auth, authorize('organization'),[
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
-  check('date', 'Date is required').isDate(),
+  check('event_date', 'Date is required').isDate(),
+  check('location_id', 'Date is required').not().isEmpty(),
 ], async (req, res) => {
 
   const errors = validationResult(req);

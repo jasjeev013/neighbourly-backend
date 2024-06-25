@@ -6,7 +6,7 @@ const { auth, authorize } = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 // Get all volunteers
-router.get('/', async (req, res) => {
+router.get('/',auth ,async (req, res) => {
   try {
     const volunteers = await Volunteer.find();
     res.json(volunteers);
@@ -23,6 +23,12 @@ router.post('/',auth, authorize('volunteer'),[
   check('availability', 'Availability is required').not().isEmpty()
 
 ] ,async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const volunteer = new Volunteer({
     user_id: req.body.user_id,
     bio: req.body.bio,

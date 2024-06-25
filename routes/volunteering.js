@@ -7,12 +7,7 @@ const { check, validationResult } = require('express-validator');
 
 
 // Get all volunteering applications
-router.get('/',auth, authorize('organization'),[
-  check('project_id', 'Project ID is required').not().isEmpty(),
-  check('volunteer_id', 'Volunteer ID is required').not().isEmpty(),
-  check('status', 'Status is required').not().isEmpty()
-
-], async (req, res) => {
+router.get('/',auth, authorize('organization'), async (req, res) => {
   try {
     const volunteeringApplications = await Volunteering.find();
     res.json(volunteeringApplications);
@@ -22,7 +17,17 @@ router.get('/',auth, authorize('organization'),[
 });
 
 // Create a new volunteering application
-router.post('/',auth, authorize('organization'), async (req, res) => {
+router.post('/',auth, authorize('volunteer'),[
+  check('project_id', 'Project ID is required').not().isEmpty(),
+  check('volunteer_id', 'Volunteer ID is required').not().isEmpty(),
+  check('status', 'Status is required').not().isEmpty()
+
+] ,async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  
   const volunteering = new Volunteering({
     project_id: req.body.project_id,
     volunteer_id: req.body.volunteer_id,
@@ -38,7 +43,7 @@ router.post('/',auth, authorize('organization'), async (req, res) => {
 });
 
 // Get volunteering opportunity by ID
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', auth, authorize('organization'), async (req, res) => {
   try {
     const volunteering = await Volunteering.findById(req.params.id);
     if (!volunteering) {

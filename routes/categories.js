@@ -6,7 +6,7 @@ const { auth, authorize } = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 // Create a new category
-router.post('/', [
+router.post('/', auth, authorize('organization'),[
   check('name', 'Name is required').not().isEmpty(),
 ], async (req, res) => {
 
@@ -54,7 +54,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update category by ID
-router.put('/:id', [
+router.put('/:id',auth, authorize('organization'), [
   check('name', 'Name is required').not().isEmpty(),
 ], async (req, res) => { 
   const errors = validationResult(req);
@@ -82,7 +82,7 @@ router.put('/:id', [
 });
 
 // Delete category by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',auth, authorize('organization'), async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
 

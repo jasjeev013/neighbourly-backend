@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const upload = require('../config/multer');
 const User = require('../models/user');
 const { auth, authorize } = require('../middleware/auth');
@@ -33,17 +32,6 @@ router.put('/', auth, upload.single('profilePhoto'),[
     if (profilePhoto) user.profilePhoto = profilePhoto;
 
     await user.save();
-    res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
-
-// Get profile of the logged-in user
-router.get('/', async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
     console.error(err.message);
