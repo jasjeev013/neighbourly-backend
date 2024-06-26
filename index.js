@@ -3,17 +3,22 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const cors = require('cors'); // Import the cors package
-
+const cookieParser = require('cookie-parser')
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors()); // Use cors middleware to allow all origins
-app.use(bodyParser.json());
+const corsOptions = {
+  
+ 
+  credentials: true // allows the server to accept cookies from the client
+};
 
+app.use(cors(corsOptions)); // Use cors middleware to allow all origins
+app.use(bodyParser.json());
+app.use(cookieParser())
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
