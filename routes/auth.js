@@ -62,7 +62,7 @@ router.post('/register', upload.single('profilePhoto'), [
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.status(200).cookie(cookie.ACCESS_TOKEN,token,cookie.OPTIONS).json({ token });
+        res.status(200).json({ token });
       }
     );
 
@@ -111,7 +111,7 @@ router.post('/login', [
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.status(200).cookie(cookie.ACCESS_TOKEN,token,cookie.OPTIONS).json({ token });
+        res.status(200).json({ token });
       }
     );
 
