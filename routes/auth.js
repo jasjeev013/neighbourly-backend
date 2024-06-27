@@ -6,7 +6,7 @@ const upload = require('../config/multer');
 const { check, validationResult } = require('express-validator');
 const multer = require('multer');
 const User = require('../models/user');
-const {cookie} = require('../config')
+
 
 // JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';
@@ -62,7 +62,7 @@ router.post('/register', upload.single('profilePhoto'), [
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.status(200).json({ token });
+        res.json({ token });
       }
     );
 
@@ -111,7 +111,7 @@ router.post('/login', [
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.status(200).json({ token });
+        res.json({ token });
       }
     );
 

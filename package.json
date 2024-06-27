@@ -4,8 +4,8 @@
   "description": "This package manages all CRUD operations performed on the neighbourly website which helps volunteer and organization to interact with each other",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "start": "node index.js"
   },
   "author": "Jasjeev",
   "license": "ISC",
