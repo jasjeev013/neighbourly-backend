@@ -62,7 +62,7 @@ router.post('/register', upload.single('profilePhoto'), [
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token ,user_id: user._id});
       }
     );
 
@@ -111,7 +111,7 @@ router.post('/login', [
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token ,user_id: user._id});
       }
     );
 
