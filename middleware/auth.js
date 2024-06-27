@@ -3,7 +3,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';
 
 function auth(req, res, next) {
 
-  const token = req.headers.Access_token;
+  const token = req.header('access_token');
 
  
 
