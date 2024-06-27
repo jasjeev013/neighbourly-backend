@@ -108,7 +108,7 @@ router.post('/login', [
     jwt.sign(
       payload,
       JWT_SECRET,
-      { expiresIn: '1h' },
+      { expiresIn: '24h' },
       (err, token) => {
         if (err) throw err;
         res.json({ token ,user_id: user._id});

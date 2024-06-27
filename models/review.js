@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema({
   volunteer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Volunteer', required: true },
   project_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
-  comment: { type: String, required: true },
+  comment: { type: String },
   review_date: { type: Date, default: Date.now }
 });
 

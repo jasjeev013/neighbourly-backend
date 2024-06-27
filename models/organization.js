@@ -8,7 +8,7 @@ const organizationSchema = new mongoose.Schema({
   contact_email: { type: String, required: true },
   contact_phone: { type: String, required: true },
   address: { type: String, required: true },
-  website: { type: String, required: true }
+  website: { type: String }
 });
 
 module.exports = mongoose.model('Organization', organizationSchema);
