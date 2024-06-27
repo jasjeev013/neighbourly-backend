@@ -6,14 +6,6 @@ function auth(req, res, next) {
 
   const token = req.header('access_token');
 
- 
-
-
-=======
-  const token = req.headers.access_token;
-   console.log(token)
-   console.log(req.headers)
->>>>>>> 6e4053102d34519b916c413fe1888b87aebbdbc5
   if (!token) {
     return res.status(401).json({ msg: 'No token, authorization denied' });
   }
