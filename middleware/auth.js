@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';
 
 function auth(req, res, next) {
-<<<<<<< HEAD
 
   const token = req.header('access_token');
 
