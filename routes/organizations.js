@@ -66,7 +66,7 @@ router.get('/:id',  async (req, res) => {
 // Get organization by User_ID
 router.get('/users/:id',  async (req, res) => {
   try {
-    const {user_id} = req.params.user_id;
+    const {user_id} = req.params;
     const organization = await Organization.findOne({user_id});
     if (!organization) {
       return res.status(404).json({ msg: 'Organization not found' });
