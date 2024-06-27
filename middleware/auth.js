@@ -2,7 +2,11 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';
 
 function auth(req, res, next) {
-  const token = req.header('x-auth-token');
+
+  const token = req.headers.Access_token;
+
+ 
+
 
   if (!token) {
     return res.status(401).json({ msg: 'No token, authorization denied' });
