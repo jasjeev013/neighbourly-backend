@@ -9,7 +9,10 @@ const projectSchema = new mongoose.Schema({
   end_date: { type: Date, required: true },
   location_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Location', required: true },
   category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
-  volunteers_needed: { type: Number, required: true }
+  volunteers_needed: { type: Number, required: true },
+  projectPhoto: {
+    type: String // URL of the profile photo
+  }
 });
 
 module.exports = mongoose.model('Project', projectSchema);

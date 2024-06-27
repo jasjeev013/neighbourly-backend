@@ -6,7 +6,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'profile_photos',
-    allowed_formats: ['jpg', 'png'],
+    allowed_formats: ['jpg', 'png','jpeg'],
     transformation: [{ width: 500, height: 500, crop: 'limit' }]
   }
 });

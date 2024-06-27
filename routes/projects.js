@@ -3,6 +3,7 @@ const router = express.Router();
 const Project = require('../models/project');
 const { auth, authorize } = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const upload = require('../config/multer');
 
 // Get all projects
 router.get('/', async (req, res) => {
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new project (protected for organization role)
-router.post('/', auth, authorize('organization'),[
+router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
   check('title', 'Title should be min. 3 Characters').isLength({ min: 3 }),
   check('description', 'Description should not be empty').isLength({ min: 3 }),
   check('start_date', 'Start Date should not be empty').isDate(),
@@ -29,6 +30,7 @@ router.post('/', auth, authorize('organization'),[
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  const projectPhoto = req.file ? req.file.path : null;
 
   const project = new Project({
     organization_id: req.user.id,
@@ -38,8 +40,11 @@ router.post('/', auth, authorize('organization'),[
     end_date: req.body.end_date,
     location_id: req.body.location_id,
     category_id: req.body.category_id,
-    volunteers_needed: req.body.volunteers_needed
+    volunteers_needed: req.body.volunteers_needed,
+    projectPhoto: projectPhoto
   });
+
+  
 
   try {
     const newProject = await project.save();
@@ -64,7 +69,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update project by ID
-router.put('/:id', auth, authorize('organization'),[
+router.put('/:id', auth, authorize('organization'),upload.single('projectPhoto'),[
   check('title', 'Title should be min. 3 Characters').isLength({ min: 3 }),
   check('description', 'Description should not be empty').isLength({ min: 3 }),
   check('start_date', 'Start Date should not be empty').isDate(),
@@ -77,6 +82,7 @@ router.put('/:id', auth, authorize('organization'),[
   }
 
   const { title, description, startDate, endDate,volunteers_needed } = req.body;
+  const projectPhoto = req.file ? req.file.path : null;
 
   try {
     let project = await Project.findById(req.params.id);
@@ -90,6 +96,7 @@ router.put('/:id', auth, authorize('organization'),[
     project.startDate = startDate;
     project.endDate = endDate;
     project.volunteers_needed = volunteers_needed;
+    project.projectPhoto = projectPhoto;
 
     project = await Project.findByIdAndUpdate(req.params.id, { $set: project }, { new: true });
 

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const upload = require('../config/multer');
 const { check, validationResult } = require('express-validator');
-const multer = require('multer');
 const User = require('../models/user');
 
 
@@ -59,7 +58,7 @@ router.post('/register', upload.single('profilePhoto'), [
     jwt.sign(
       payload,
       JWT_SECRET,
-      { expiresIn: '1h' },
+      { expiresIn: '24h' },
       (err, token) => {
         if (err) throw err;
         res.json({ token ,user_id: user._id});

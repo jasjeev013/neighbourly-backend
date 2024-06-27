@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const upload = require('../config/multer');
-const cloudinary = require('../config/cloudinary');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const User = require('../models/user');
-const { auth, authorize } = require('../middleware/auth');
+const { auth} = require('../middleware/auth');
 
 
 // Get user by ID

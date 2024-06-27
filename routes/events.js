@@ -4,6 +4,7 @@ const router = express.Router();
 const Event = require('../models/event');
 const { auth, authorize } = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const upload = require('../config/multer');
 
 // Get all events
 router.get('/', async (req, res) => {
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new event
-router.post('/', auth, authorize('organization'),[
+router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
   check('event_date', 'Date is required').isDate(),
@@ -28,13 +29,15 @@ router.post('/', auth, authorize('organization'),[
     return res.status(400).json({ errors: errors.array() });
   }
 
+  const eventPhoto = req.file ? req.file.path : null;
   
   const event = new Event({
     project_id: req.body.project_id,
     title: req.body.title,
     description: req.body.description,
     event_date: req.body.event_date,
-    location_id: req.body.location_id
+    location_id: req.body.location_id,
+    eventPhoto: eventPhoto
   });
 
   try {
@@ -61,7 +64,7 @@ router.get('/:id', async (req, res) => {
 
 
 // Update event by ID
-router.put('/:id', auth, authorize('organization'), [
+router.put('/:id', auth, authorize('organization'),upload.single('eventPhoto'), [
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
   check('date', 'Date is required').isDate(),
@@ -72,6 +75,7 @@ router.put('/:id', auth, authorize('organization'), [
   }
 
   const { title, description, date, location } = req.body;
+  const eventPhoto = req.file ? req.file.path : null;
 
   try {
     let event = await Event.findById(req.params.id);
@@ -84,6 +88,7 @@ router.put('/:id', auth, authorize('organization'), [
     event.description = description;
     event.date = date;
     event.location = location;
+    event.eventPhoto = eventPhoto;
 
     event = await Event.findByIdAndUpdate(req.params.id, { $set: event }, { new: true });
 

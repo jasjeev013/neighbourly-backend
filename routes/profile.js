@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../config/multer');
 const User = require('../models/user');
-const { auth, authorize } = require('../middleware/auth');
+const { auth} = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 // Update user profile
