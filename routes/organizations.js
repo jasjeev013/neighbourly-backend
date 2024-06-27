@@ -64,7 +64,7 @@ router.get('/:id',  async (req, res) => {
 });
 
 // Get organization by User_ID
-router.get('/users/:id',  async (req, res) => {
+router.get('/users/:user_id',  async (req, res) => {
   try {
     const {user_id} = req.params;
     const organization = await Organization.findOne({user_id});

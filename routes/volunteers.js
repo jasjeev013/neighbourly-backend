@@ -59,7 +59,7 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // Get volunteer by User_ID
-router.get('/users/:id', auth, async (req, res) => {
+router.get('/users/:user_id', auth, async (req, res) => {
   try {
     const {user_id} = req.params ;
     const volunteer = await Volunteer.findOne({user_id});
