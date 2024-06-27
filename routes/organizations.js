@@ -63,6 +63,21 @@ router.get('/:id',  async (req, res) => {
   }
 });
 
+// Get organization by User_ID
+router.get('/users/:id',  async (req, res) => {
+  try {
+    const {user_id} = req.params.user_id;
+    const organization = await Organization.findOne({user_id});
+    if (!organization) {
+      return res.status(404).json({ msg: 'Organization not found' });
+    }
+    res.json(organization);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 // Update organization by ID
 router.put('/:id', auth, authorize('organization'),[
   check('name', 'Name is required').isLength({min: 3}),

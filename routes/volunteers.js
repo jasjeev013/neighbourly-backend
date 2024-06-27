@@ -58,6 +58,21 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
+// Get volunteer by User_ID
+router.get('/users/:id', auth, async (req, res) => {
+  try {
+    const {user_id} = req.params.user_id ;
+    const volunteer = await Volunteer.findOne({user_id});
+    if (!volunteer) {
+      return res.status(404).json({ msg: 'Volunteer not found' });
+    }
+    res.json(volunteer);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 // Update volunteer by ID
 router.put('/:id',auth, authorize('volunteer'),[
   check('user_id', 'User ID is required').not().isEmpty(),
