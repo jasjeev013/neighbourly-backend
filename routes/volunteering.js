@@ -7,7 +7,7 @@ const { check, validationResult } = require('express-validator');
 
 
 // Get all volunteering applications
-router.get('/',auth, authorize('organization'), async (req, res) => {
+router.get('/',auth, async (req, res) => {
   try {
     const volunteeringApplications = await Volunteering.find();
     res.json(volunteeringApplications);
@@ -17,7 +17,7 @@ router.get('/',auth, authorize('organization'), async (req, res) => {
 });
 
 // Get all volunteering applications by event_id
-router.get('/events/:event_id',auth, authorize('organization'), async (req, res) => {
+router.get('/events/:event_id',auth, async (req, res) => {
   try {
     const {event_id} = req.params;
     const volunteeringApplications = await Volunteering.find({event_id});
@@ -28,7 +28,7 @@ router.get('/events/:event_id',auth, authorize('organization'), async (req, res)
 });
 
 // Get all volunteering applications by volunteer_id
-router.get('/volunteers/:volunteer_id',auth, authorize('organization'), async (req, res) => {
+router.get('/volunteers/:volunteer_id',auth, async (req, res) => {
   try {
     const {volunteer_id} = req.params;
     const volunteeringApplications = await Volunteering.find({volunteer_id});
