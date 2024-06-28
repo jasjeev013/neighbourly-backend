@@ -32,7 +32,7 @@ router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
   check('event_date', 'Date is required').isDate(),
-  check('location_id', 'Date is required').not().isEmpty(),
+  check('location', 'Date is required').not().isEmpty(),
 ], async (req, res) => {
 
   const errors = validationResult(req);
@@ -47,7 +47,7 @@ router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
     title: req.body.title,
     description: req.body.description,
     event_date: req.body.event_date,
-    location_id: req.body.location_id,
+    location: req.body.location,
     eventPhoto: eventPhoto
   });
 

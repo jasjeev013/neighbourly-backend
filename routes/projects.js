@@ -32,7 +32,7 @@ router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
   check('description', 'Description should not be empty').isLength({ min: 3 }),
   check('start_date', 'Start Date should not be empty').isDate(),
   check('end_date', 'End Date should not be empty').isDate(),
-  check('location_id', 'Location Id should not be empty').not().isEmpty(),
+  check('location', 'Location  should not be empty').not().isEmpty(),
   check('category_id', 'Category Id must be 6 or more characters').not().isEmpty(),
   check('volunteers_needed', 'Volunteers should not be empty').not().isEmpty(),
 ] ,async (req, res) => {
@@ -49,7 +49,7 @@ router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
     description: req.body.description,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    location_id: req.body.location_id,
+    location: req.body.location,
     category_id: req.body.category_id,
     volunteers_needed: req.body.volunteers_needed,
     projectPhoto: projectPhoto
@@ -83,6 +83,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', auth, authorize('organization'),upload.single('projectPhoto'),[
   check('title', 'Title should be min. 3 Characters').isLength({ min: 3 }),
   check('description', 'Description should not be empty').isLength({ min: 3 }),
+  check('location', 'Location should not be empty').not().isEmpty(),
   check('start_date', 'Start Date should not be empty').isDate(),
   check('end_date', 'End Date should not be empty').isDate(),
   check('volunteers_needed', 'Volunteers should not be empty').not().isEmpty(),
@@ -92,7 +93,7 @@ router.put('/:id', auth, authorize('organization'),upload.single('projectPhoto')
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { title, description, startDate, endDate,volunteers_needed } = req.body;
+  const { title, description, startDate, endDate,volunteers_needed,location } = req.body;
   const projectPhoto = req.file ? req.file.path : null;
 
   try {
@@ -108,6 +109,7 @@ router.put('/:id', auth, authorize('organization'),upload.single('projectPhoto')
     project.endDate = endDate;
     project.volunteers_needed = volunteers_needed;
     project.projectPhoto = projectPhoto;
+    project.location = location;
 
     project = await Project.findByIdAndUpdate(req.params.id, { $set: project }, { new: true });
 

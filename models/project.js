@@ -7,7 +7,7 @@ const projectSchema = new mongoose.Schema({
   description: { type: String, required: true },
   start_date: { type: Date, required: true },
   end_date: { type: Date, required: true },
-  location_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Location', required: true },
+  location: { type: String, required: true },
   category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
   volunteers_needed: { type: Number, required: true },
   projectPhoto: {
