@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 router.get('/organizations/:organization_id', async (req, res) => {
   try {
     const {organization_id} = req.params;
-    const projects = await Project.find({organization_id});
+    const projects = await Project.find({"organization_id":organization_id});
     res.json(projects);
   } catch (err) {
     res.status(500).json({ message: err.message });
