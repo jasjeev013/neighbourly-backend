@@ -16,6 +16,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get all events by project_id
+router.get('/projects/:project_id', async (req, res) => {
+  try {
+    const {project_id} = req.params;
+    const events = await Event.find({project_id});
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Create a new event
 router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
   check('title', 'Title is required').not().isEmpty(),

@@ -15,6 +15,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get all projects under organization_id
+router.get('/organizations/:organization_id', async (req, res) => {
+  try {
+    const {organizations_id} = req.params;
+    const projects = await Project.find({organizations_id});
+    res.json(projects);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Create a new project (protected for organization role)
 router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
   check('title', 'Title should be min. 3 Characters').isLength({ min: 3 }),
