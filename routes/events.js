@@ -29,6 +29,7 @@ router.get('/projects/:project_id', async (req, res) => {
 
 // Create a new event
 router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
+  check('project_id', 'Project_ID is required').not().isEmpty(),
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
   check('event_date', 'Date is required').isDate(),

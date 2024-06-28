@@ -28,7 +28,8 @@ router.get('/organizations/:organization_id', async (req, res) => {
 
 // Create a new project (protected for organization role)
 router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
-  check('title', 'Title should be min. 3 Characters').isLength({ min: 3 }),
+  check('organization_id', 'Organization_id should not be empty').not().isEmpty(),
+  check('title', 'mTitle should be min. 3 Characters').isLength({ min: 3 }),
   check('description', 'Description should not be empty').isLength({ min: 3 }),
   check('start_date', 'Start Date should not be empty').isDate(),
   check('end_date', 'End Date should not be empty').isDate(),
@@ -44,7 +45,7 @@ router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
   const projectPhoto = req.file ? req.file.path : null;
 
   const project = new Project({
-    organization_id: req.user.id,
+    organization_id: req.body.organization_id,
     title: req.body.title,
     description: req.body.description,
     start_date: req.body.start_date,
