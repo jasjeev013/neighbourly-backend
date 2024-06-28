@@ -53,6 +53,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Get category by ID
+router.get('/name/:name', async (req, res) => {
+  try {
+    const {name} = req.params;
+    const category = await Category.findOne({name});
+    if (!category) {
+      return res.status(404).json({ msg: 'Category not found' });
+    }
+    res.json(category);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 // Update category by ID
 router.put('/:id',auth, authorize('organization'), [
   check('name', 'Name is required').not().isEmpty(),
