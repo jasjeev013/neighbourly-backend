@@ -15,6 +15,28 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get all reviews by Project_id
+router.get('/projects/:project_id', async (req, res) => {
+  try {
+    const {project_id} = req.params;
+    const reviews = await Review.find({project_id});
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all reviews by Volunteer_id
+router.get('/volunteers/:volunteer_id', async (req, res) => {
+  try {
+    const {volunteer_id} = req.params;
+    const reviews = await Review.find({volunteer_id});
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Create a new review
 router.post('/', auth, authorize('volunteer'),[
   check('volunteer_id', 'Volunteer ID is required').not().isEmpty(),

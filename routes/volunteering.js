@@ -16,9 +16,31 @@ router.get('/',auth, authorize('organization'), async (req, res) => {
   }
 });
 
+// Get all volunteering applications by event_id
+router.get('/events/:event_id',auth, authorize('organization'), async (req, res) => {
+  try {
+    const {event_id} = req.params;
+    const volunteeringApplications = await Volunteering.find({event_id});
+    res.json(volunteeringApplications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all volunteering applications by volunteer_id
+router.get('/volunteers/:volunteer_id',auth, authorize('organization'), async (req, res) => {
+  try {
+    const {volunteer_id} = req.params;
+    const volunteeringApplications = await Volunteering.find({volunteer_id});
+    res.json(volunteeringApplications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Create a new volunteering application
 router.post('/',auth, authorize('volunteer'),[
-  check('project_id', 'Project ID is required').not().isEmpty(),
+  check('event_id', 'Event ID is required').not().isEmpty(),
   check('volunteer_id', 'Volunteer ID is required').not().isEmpty(),
   check('status', 'Status is required').not().isEmpty()
 
@@ -29,7 +51,7 @@ router.post('/',auth, authorize('volunteer'),[
   }
   
   const volunteering = new Volunteering({
-    project_id: req.body.project_id,
+    event_id: req.body.event_id,
     volunteer_id: req.body.volunteer_id,
     status: req.body.status
   });
