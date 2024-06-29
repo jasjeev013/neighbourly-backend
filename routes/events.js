@@ -28,7 +28,7 @@ router.get('/projects/:project_id', async (req, res) => {
 });
 
 // Create a new event
-router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
+router.post('/', auth, authorize('organization'),[
   check('project_id', 'Project_ID is required').not().isEmpty(),
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
@@ -41,7 +41,6 @@ router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const eventPhoto = req.file ? req.file.path : null;
   
   const event = new Event({
     project_id: req.body.project_id,
@@ -49,7 +48,7 @@ router.post('/', auth, authorize('organization'),upload.single('eventPhoto'),[
     description: req.body.description,
     event_date: req.body.event_date,
     location: req.body.location,
-    eventPhoto: eventPhoto
+    eventPhoto: req.body.eventPhoto
   });
 
   try {
@@ -86,8 +85,7 @@ router.put('/:id', auth, authorize('organization'),upload.single('eventPhoto'), 
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { title, description, date, location } = req.body;
-  const eventPhoto = req.file ? req.file.path : null;
+  const { title, description, date, location,eventPhoto } = req.body;
 
   try {
     let event = await Event.findById(req.params.id);

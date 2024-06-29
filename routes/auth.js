@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const upload = require('../config/multer');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/user');
 
@@ -11,7 +10,7 @@ const User = require('../models/user');
 const JWT_SECRET = process.env.JWT_SECRET || 'neighbourlyisthebest';
 
 // Register a new user (volunteer or organization)
-router.post('/register', upload.single('profilePhoto'), [
+router.post('/register', [
   check('username', 'Username is required').isLength({min: 3}),
   check('email', 'Please include a valid email').isEmail(),
   check('password', 'Password must be 6 or more characters').isLength({ min: 4 }),
@@ -22,8 +21,7 @@ router.post('/register', upload.single('profilePhoto'), [
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, email, password, role } = req.body;
-  const profilePhoto = req.file ? req.file.path : null;
+  const { username, email, password, role,profilePhoto } = req.body;
 
   try {
     // Check if the user already exists

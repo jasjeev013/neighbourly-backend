@@ -3,7 +3,6 @@ const router = express.Router();
 const Project = require('../models/project');
 const { auth, authorize } = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
-const upload = require('../config/multer');
 
 // Get all projects
 router.get('/', async (req, res) => {
@@ -27,7 +26,7 @@ router.get('/organizations/:organization_id', async (req, res) => {
 });
 
 // Create a new project (protected for organization role)
-router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
+router.post('/', auth, authorize('organization'),[
   check('organization_id', 'Organization_id should not be empty').not().isEmpty(),
   check('title', 'mTitle should be min. 3 Characters').isLength({ min: 3 }),
   check('description', 'Description should not be empty').isLength({ min: 3 }),
@@ -42,7 +41,6 @@ router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const projectPhoto = req.file ? req.file.path : null;
 
   const project = new Project({
     organization_id: req.body.organization_id,
@@ -53,7 +51,7 @@ router.post('/', auth, authorize('organization'),upload.single('projectPhoto'),[
     location: req.body.location,
     category_id: req.body.category_id,
     volunteers_needed: req.body.volunteers_needed,
-    projectPhoto: projectPhoto
+    projectPhoto: req.body.projectPhoto
   });
 
   
@@ -81,7 +79,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update project by ID
-router.put('/:id', auth, authorize('organization'),upload.single('projectPhoto'),[
+router.put('/:id', auth, authorize('organization'),[
   check('title', 'Title should be min. 3 Characters').isLength({ min: 3 }),
   check('description', 'Description should not be empty').isLength({ min: 3 }),
   check('location', 'Location should not be empty').not().isEmpty(),
@@ -94,8 +92,7 @@ router.put('/:id', auth, authorize('organization'),upload.single('projectPhoto')
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { title, description, startDate, endDate,volunteers_needed,location } = req.body;
-  const projectPhoto = req.file ? req.file.path : null;
+  const { title, description, startDate, endDate,volunteers_needed,location ,projectPhoto} = req.body;
 
   try {
     let project = await Project.findById(req.params.id);

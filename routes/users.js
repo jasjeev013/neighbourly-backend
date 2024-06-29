@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const upload = require('../config/multer');
 const User = require('../models/user');
 const { auth} = require('../middleware/auth');
 
@@ -26,7 +25,7 @@ router.get('/:id',auth ,async (req, res) => {
 
 
 // Update user by ID
-router.put('/:id', auth , upload.single('profilePhoto'), [
+router.put('/:id', auth , [
   check('username', 'Username is required').not().isEmpty(),
   check('email', 'Please include a valid email').isEmail(),
   check('password', 'Password is required').not().isEmpty(),
@@ -38,8 +37,7 @@ router.put('/:id', auth , upload.single('profilePhoto'), [
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, email, password, role } = req.body;
-  const profilePhoto = req.file ? req.file.path : '';
+  const { username, email, password, role,profilePhoto } = req.body;
 
   // Build user object
   const userFields = {};
