@@ -4,7 +4,6 @@ const router = express.Router();
 const Event = require('../models/event');
 const { auth, authorize } = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
-const upload = require('../config/multer');
 
 // Get all events
 router.get('/', async (req, res) => {
@@ -75,7 +74,7 @@ router.get('/:id', async (req, res) => {
 
 
 // Update event by ID
-router.put('/:id', auth, authorize('organization'),upload.single('eventPhoto'), [
+router.put('/:id', auth, authorize('organization'), [
   check('title', 'Title is required').not().isEmpty(),
   check('description', 'Description is required').not().isEmpty(),
   check('date', 'Date is required').isDate(),

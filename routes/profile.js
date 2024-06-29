@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../config/multer');
 const User = require('../models/user');
 const { auth} = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 // Update user profile
-router.put('/', auth, upload.single('profilePhoto'),[
+router.put('/', auth,[
    check('username', 'Username is required').isLength({min: 3}),
    check('email', 'Please include a valid email').isEmail(),
 ] ,async (req, res) => {
@@ -17,8 +16,7 @@ router.put('/', auth, upload.single('profilePhoto'),[
   }
 
 
-  const { username, email } = req.body;
-  const profilePhoto = req.file ? req.file.path : null;
+  const { username, email,profilePhoto } = req.body;
 
   try {
     const user = await User.findById(req.user.id);
