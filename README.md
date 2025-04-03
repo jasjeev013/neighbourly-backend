@@ -27,8 +27,7 @@ Neighbourly is a community engagement platform that enables people to create, pu
 6. [Database Schema](#-database-schema)
 7. [Screenshots](#-screenshots)
 8. [Contributing](#-contributing)
-9. [License](#-license)
-10. [Contact](#-contact)
+9. [Contact](#-contact)
 
 ---
 
@@ -71,7 +70,7 @@ Neighbourly is a community engagement platform that enables people to create, pu
 | `/events/:id`            | DELETE | Delete event                         | Organization        |
 | `/events/projects/:id`   | GET    | Get events by project ID             | No                  |
 
-*(Complete API documentation available in [All Routes.docx](All Routes.docx))*
+*(Complete API documentation available in [All Routes.docx](./All%20Routes.docx))*
 
 ---
 
@@ -168,7 +167,7 @@ jasjeev013-neighbourly-backend/
 
 ## 🗃 Database Schema
 
-![ER Diagram](/path/to/er-diagram.png) *(Replace with database schema image)*
+<!-- ![ER Diagram](/path/to/er-diagram.png) *(Replace with database schema image)* -->
 
 Key Models:
 - **Users**: Base user accounts (volunteers/organizations)
@@ -184,13 +183,13 @@ Key Models:
 ## 📸 Screenshots
 
 ### API Endpoints
-![API Endpoints](/path/to/api-screenshot.png) *(Replace with Postman/API screenshot)*
+![API Endpoints](./images/postman.png) 
 
 ### Database Models
-![Database Models](/path/to/models-screenshot.png) *(Replace with models screenshot)*
+![Database Models](./images/mongoDB.png) 
 
-### Authentication Flow
-![Auth Flow](/path/to/auth-screenshot.png) *(Replace with auth flow screenshot)*
+### API Working
+![Api Working](./images/api.png) 
 
 ---
 
@@ -206,11 +205,7 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
 
 ## 📧 Contact
 
