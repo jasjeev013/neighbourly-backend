@@ -70,7 +70,7 @@ Neighbourly is a community engagement platform that enables people to create, pu
 | `/events/:id`            | DELETE | Delete event                         | Organization        |
 | `/events/projects/:id`   | GET    | Get events by project ID             | No                  |
 
-*(Complete API documentation available in [All Routes.docx](./All%20Routes.docx))*
+*(Complete API documentation available in [All Routes.docx](./All%20Routes.docx)*
 
 ---
 
@@ -211,8 +211,7 @@ We welcome contributions! Please follow these steps:
 
 **Jasjeev**  
 - GitHub: [@jasjeev013](https://github.com/jasjeev013)
-- Email: your.email@example.com
+- Email: jasjeev99@gmail.com
 
-*(Replace contact information with your details)*
 
 ---
